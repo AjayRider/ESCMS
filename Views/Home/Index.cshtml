@@ -1,0 +1,159 @@
+﻿
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Tracker</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 90vh;
+           
+            margin: 50px;
+            font-family: Arial, sans-serif;
+            
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #addBox, #itemList {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 30px;
+            text-align: center;
+        }
+
+        #searchBox {
+            margin-top: 10px;
+        }
+
+        #searchInput {
+            width: 80%;
+            padding: 8px;
+            margin-right: 5px;
+        }
+
+        #addItemBtn, #searchBtn {
+            padding: 8px;
+            position: absolute;
+            cursor: pointer;
+        }
+
+
+        #itemTable {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+            #itemTable th, #itemTable td {
+                border: 1px solid #ddd;
+                padding: 10px;
+                text-align: right;
+            }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <div id="addBox">
+         
+            <label for="itemName">Name:</label>
+            <input type="text" id="itemName" />
+            <br/>
+            <br />
+            <label for="itemID">Id:   </label>
+            <input type="text" id="itemID" />
+            <br>
+            <br />
+          
+        </div>
+
+        <div id="itemList">
+            <h2>Item List</h2>
+            <div id="searchBox">
+                <br />
+                <button id="submitBtn" onclick="submitItem()">Add</button>
+                <br />
+                <input type="text" id="searchInput" placeholder=" Item Name" />
+                <br />
+                <input type="text" id="searchInput" placeholder="Item  ID" />
+               
+                <button id="submitBtn" onclick="submitItem()">Save</button>
+
+            </div>
+            <br />
+            <table id="itemTable">
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Item ID</th>
+                    </tr>
+                </thead>
+                <tbody id="items"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function addItem() {
+            var itemName = document.getElementById("itemName").value;
+            var itemID = document.getElementById("itemID").value;
+
+            if (itemName.trim() !== "" && itemID.trim() !== "") {
+                var row = document.createElement("tr");
+                var cellName = document.createElement("td");
+                cellName.appendChild(document.createTextNode(itemName));
+                row.appendChild(cellName);
+
+                var cellID = document.createElement("td");
+                cellID.appendChild(document.createTextNode(itemID));
+                row.appendChild(cellID);
+
+                document.getElementById("items").appendChild(row);
+
+                document.getElementById("itemName").value = "";
+                document.getElementById("itemID").value = "";
+            }
+        }
+
+        function searchItem() {
+            var searchText = document.getElementById("searchInput").value.toLowerCase();
+            var rows = document.getElementById("items").getElementsByTagName("tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName("td");
+                var found = false;
+
+                for (var j = 0; j < cells.length; j++) {
+                    var cellText = cells[j].textContent.toLowerCase();
+
+                    if (cellText.includes(searchText)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
